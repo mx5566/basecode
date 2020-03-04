@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 	"runtime"
-	"strings"
 	"sync"
 	"time"
 )
@@ -62,8 +61,8 @@ func main() {
 
 	//Testkk()
 
-	flag.Parse()
-	fmt.Printf("ip %s port %d\n", ip, port)
+	//flag.Parse()
+	//fmt.Printf("ip %s port %d\n", ip, port)
 
 	//	JsonTest()
 
@@ -72,17 +71,23 @@ func main() {
 	//testf()
 	//testfx()
 
-	link("seek", 1, 2, 3, 4)
+	//link("seek", 1, 2, 3, 4)
+	//
+	//a := []int{1, 2, 3, 4}
+	//
+	//b := map[int]int{1: 1, 2: 2}
+	//
+	//fmt.Println(fmt.Sprint(a))
+	//link("seek", strings.Trim(fmt.Sprint(a), "[]"))
+	//
+	//fmt.Println(fmt.Sprint(b))
+	//link("seek", strings.Trim(fmt.Sprint(b), "[]"))
 
-	a := []int{1, 2, 3, 4}
+	var sli []int = []int{1}
 
-	b := map[int]int{1: 1, 2: 2}
+	ss := sli[1:]
 
-	fmt.Println(fmt.Sprint(a))
-	link("seek", strings.Trim(fmt.Sprint(a), "[]"))
-
-	fmt.Println(fmt.Sprint(b))
-	link("seek", strings.Trim(fmt.Sprint(b), "[]"))
+	fmt.Println(ss)
 }
 
 func link(p ...interface{}) {
