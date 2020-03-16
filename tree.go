@@ -388,11 +388,16 @@ func isSymmetric(root *TreeNode) bool {
 	return isMirror(root.Left, root.Right)
 }
 
+// 使用BFS队列判断是不是镜像队列
+// 我会在目录里面放一张二叉树的图
+// 对应的图片是BST-mirror.jpg
 func bfsMirror(root *TreeNode) bool {
 	if root == nil {
 		return true
 	}
 
+	// 思路就是
+	// 每次至少添加两个节点 且这两个节点值相等则继续添加子节点
 	var queue []*TreeNode
 	queue = append(queue, root)
 	queue = append(queue, root)
@@ -403,25 +408,31 @@ func bfsMirror(root *TreeNode) bool {
 
 		queue = queue[2:]
 
+		// 都为空继续
 		if t1 == nil && t2 == nil {
 			continue
 		}
 
+		// 有一个为空一个不为空则肯定不会相等
 		if t1 == nil || t2 == nil {
 			return false
 		}
 
+		// 两个值不相等不是镜像
 		if t1.Val != t2.Val {
 			return false
 		}
 
+		// 以为一开始添加两个root 则他们不需要重复添加
 		if t1 == t2 {
 			queue = append(queue, t1.Left)
 			queue = append(queue, t1.Right)
 		} else {
+			// 分别把每个左子树的左节点 和右子树的有节点添加
 			queue = append(queue, t1.Left)
 			queue = append(queue, t2.Right)
 
+			// 与上面相反
 			queue = append(queue, t1.Right)
 			queue = append(queue, t2.Left)
 		}
