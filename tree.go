@@ -19,47 +19,16 @@ func (this *Tree) GetRoot() *TreeNode {
 }
 
 // 中序 遍历创建二叉树 通过数组
-func BuildTreeMidSeq(arr []int) *Tree {
+func BuildBSTTree(arr []int) *Tree {
 	var tree = Tree{root: nil}
 
-	var length = len(arr)
+	length := len(arr)
 	if length == 0 {
 		return &tree
 	}
 
-	rootNode := new(TreeNode)
-	rootNode.Val = arr[0]
-	rootNode.Left = nil
-	rootNode.Right = nil
-
-	tree.root = rootNode
-
-	currentNode := new(TreeNode)
-	currentNode.Left = rootNode
-	currentNode.Right = rootNode
-
-	var createTree = func(root *TreeNode, i int) {
-		root.Val = arr[i]
-		root.Left = nil
-		root.Right = nil
-	}
-
-	for i := 1; i < length; i += 2 {
-		if arr[i] != int(nil) {
-			currentNode.Left.Left = new(TreeNode)
-			createTree(rootNode.Left.Left, i)
-
-			currentNode.Left = currentNode.Left.Left
-
-		}
-
-		if i+1 < length && arr[i+1] != int(nil) {
-			currentNode.Right.Right = new(TreeNode)
-			createTree(currentNode.Right.Right, i+1)
-
-			currentNode.Right = currentNode.Right.Right
-		}
-
+	for i := 0; i < length; i++ {
+		insertBST(tree.root, arr[i])
 	}
 
 	return &tree
