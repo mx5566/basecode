@@ -409,3 +409,76 @@ func bfsMirror(root *TreeNode) bool {
 
 	return true
 }
+
+func LeftRorate(tree *Tree, node *TreeNode) {
+	if tree.root == nil {
+		return
+	}
+
+	if node == nil {
+		return
+	}
+
+	// 左旋 先找到右支的节点
+	y := node.Right
+
+	// y 的左节点变为node的右节点
+	node.Right = y.Left
+
+	// y 的左的父节点变为node节点
+	if y.Left != nil {
+		y.Left.Parent = node
+	}
+
+	// y的父节点是 node节点的父节点
+	y.Parent = node.Parent
+
+	// 旋转的节点父节点是空节点-就是根节点
+	if node.Parent == nil {
+		tree.root = y
+	} else if node == node.Parent.Left {
+		// 是父节点的左节点
+		node.Parent.Left = y
+	} else {
+		// 是父节点的右节点
+		node.Parent.Right = y
+	}
+
+	//
+	y.Left = node
+	//
+	node.Parent = y
+}
+
+func RightRorate(tree *Tree, node *TreeNode) {
+	y := node.Left
+
+	node.Left = y.Right
+
+	if y.Right != nil {
+		y.Right.Parent = node
+	}
+
+	y.Parent = node.Parent
+
+	// 说明原来的node是root节点
+	if y.Parent == nil {
+		tree.root = y
+	} else if y.Parent.Left == node {
+		y.Parent.Left = y
+	} else {
+		y.Parent.Right = y
+	}
+
+	y.Right = node
+	node.Parent = y
+}
+
+// 证明在任意一个有n个节点的二叉搜索树只有n-1种旋转
+// 数学归纳法
+// 假如 n =1，则只有一个根节点，而左旋与右旋必然有另个支点，所有一个 节点时是不能旋转 就是0种可能 也就是 n -1 = 1-1 = 0
+// 假设 n = k 成立，则有 k -1种可能的旋转
+// 那么对于n=k+1时，也就二叉搜索树新添加一个节点，则这个节点一定在叶节点，并且其父节点一定不为空，这个叶节点可能是左节点也可能有节点
+// 如果是左子结点，那么相对于原二叉查找树，增加了一个右旋操作；如果是右子结点，那么增加了一个左旋的操作，则原来有k-1种可能,加上一种可能也就是k种
+// 也就是k+1-1=k
+// 根据以上证明我们得到证明的结论正确
