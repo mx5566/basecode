@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type TreeNode struct {
 	Val   int
@@ -482,3 +484,80 @@ func RightRorate(tree *Tree, node *TreeNode) {
 // 如果是左子结点，那么相对于原二叉查找树，增加了一个右旋操作；如果是右子结点，那么增加了一个左旋的操作，则原来有k-1种可能,加上一种可能也就是k种
 // 也就是k+1-1=k
 // 根据以上证明我们得到证明的结论正确
+
+func levelOrder(root *TreeNode) [][]int {
+	if root == nil {
+		return nil
+	}
+
+	var ret [][]int
+	var queue []*TreeNode
+	queue = append(queue, root)
+
+	// 队列里面有东西
+	for len(queue) > 0 {
+		var arr []int
+
+		length := len(queue)
+		// 循环里面 找到每个节点的后代
+		for i := 0; i < length; i++ {
+			node := queue[i]
+			if node != nil {
+				// 存储层的值
+				arr = append(arr, node.Val)
+
+				if node.Left != nil {
+					queue = append(queue, node.Left)
+				}
+
+				if node.Right != nil {
+					queue = append(queue, node.Right)
+				}
+			}
+		}
+
+		queue = queue[length:]
+		ret = append(ret, arr)
+
+	}
+
+	return ret
+}
+
+func oDfs(root *TreeNode, level int, ret *[][]int) {
+	if len(*ret) == level {
+		*ret = append(*ret, []int{})
+	}
+
+	(*ret)[level] = append((*ret)[level], root.Val)
+
+	if root.Left != nil {
+		oDfs(root.Left, level+1, ret)
+	}
+
+	if root.Right != nil {
+		oDfs(root.Right, level+1, ret)
+	}
+}
+
+func levelOrderDfs(root *TreeNode) [][]int {
+	if root == nil {
+		return nil
+	}
+
+	var ret [][]int
+
+	oDfs(root, 0, &ret)
+
+	//var ff = func(int) {
+	//	ff()
+	//}
+	//
+	//type funcType func(int)
+	//var f funcType
+	//f = func(i int) {
+	//	f(i)
+	//}
+
+	return ret
+}
