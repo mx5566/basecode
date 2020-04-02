@@ -83,11 +83,13 @@ func main() {
 	//fmt.Println(fmt.Sprint(b))
 	//link("seek", strings.Trim(fmt.Sprint(b), "[]"))
 
-	var sli []int = []int{1}
+	//var sli []int = []int{1}
+	//
+	//ss := sli[1:]
+	//
+	//fmt.Println(ss)
 
-	ss := sli[1:]
-
-	fmt.Println(ss)
+	TestChan1()
 }
 
 func link(p ...interface{}) {
@@ -128,18 +130,25 @@ func TestChan() {
 
 func TestChan1() {
 	var ch chan int
+	ch = make(chan int, 1)
+
 	go func() {
-		ch = make(chan int, 1)
 		ch <- 1
 	}()
 
 	go func(ch chan int) {
 		time.Sleep(time.Second)
-		<-ch
+		//fmt.Println(ch)
+		item, ok := <-ch
+
+		fmt.Println(ok)
+
+		fmt.Println(item)
 	}(ch)
 
 	c := time.Tick(1 * time.Second)
 
+	//fmt.Println(ch)
 	for range c {
 		fmt.Printf("go num %d\n", runtime.NumGoroutine())
 	}

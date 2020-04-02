@@ -157,8 +157,6 @@ func MyAtoi(str string) int {
 			break
 		}
 	}
-
-	fmt.Println(flg)
 	for i := startPos; i < len(str); i++ {
 		if str[i] >= '0' && str[i] <= '9' {
 			res = res*10 + int(str[i]-'0')
@@ -169,9 +167,6 @@ func MyAtoi(str string) int {
 			break
 		}
 	}
-
-	fmt.Println(res)
-
 	if flg < 0 {
 		res = -res
 	}
