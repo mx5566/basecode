@@ -561,3 +561,28 @@ func levelOrderDfs(root *TreeNode) [][]int {
 
 	return ret
 }
+
+// 分而治之
+// 递归的思想
+func sortedArrayToBST(nums []int) *TreeNode {
+
+	// 闭包 内部递归
+	type funcType func(int, int) *TreeNode
+	var helper funcType
+
+	helper = func(left, right int) *TreeNode {
+		if left > right {
+			return nil
+		}
+
+		middle := (left + right) / 2
+		root := new(TreeNode)
+		root.Val = nums[middle]
+		root.Left = helper(left, middle-1)
+		root.Right = helper(middle+1, right)
+
+		return root
+	}
+
+	return helper(0, len(nums)-1)
+}
