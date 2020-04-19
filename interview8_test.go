@@ -19,3 +19,23 @@ func BenchmarkMaxProfit(b *testing.B) {
 	}
 
 }
+
+func TestConstructor(t *testing.T) {
+	obj := Constructor([]int{})
+	param_1 := obj.Reset()
+	param_2 := obj.Shuffle()
+
+	fmt.Println(param_1, " ", param_2)
+}
+
+func TestConstructor1(t *testing.T) {
+	obj := Constructor1()
+	obj.Pop()
+	fmt.Println(obj.Top())
+
+	//fmt.Println(param_1, " ", param_2)
+}
+
+func TestRemoveOuterParentheses(t *testing.T) {
+	fmt.Println(RemoveOuterParentheses("(())"))
+}

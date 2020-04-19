@@ -89,7 +89,18 @@ func main() {
 	//
 	//fmt.Println(ss)
 
-	TestChan1()
+	//TestChan1()
+
+	var a []int
+
+	a = []int{}
+
+	length := len(a)
+	if length == 0 {
+		fmt.Println(a)
+	} else {
+		fmt.Println(a[len(a)-1])
+	}
 }
 
 func link(p ...interface{}) {
