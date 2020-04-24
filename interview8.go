@@ -665,3 +665,467 @@ func getLeastNumbers(arr []int, k int) []int {
 
 	return arr[0:k]
 }
+
+func minSubsequence(nums []int) []int {
+	length := len(nums)
+	if length <= 0 {
+		return []int{}
+	}
+	// 排序
+	sort.Sort(sort.Reverse(sort.IntSlice(nums)))
+	// 遍历
+
+	sum := nums[0]
+	for i := 1; i < length; i++ {
+		sum += nums[i]
+	}
+
+	temp := nums[0]
+	if temp > sum-temp {
+		return []int{temp}
+	}
+
+	ret := []int{temp}
+	for i := 1; i < length; i++ {
+		temp += nums[i]
+
+		if temp > sum-temp {
+			ret = append(ret, nums[i])
+			return ret
+		}
+		ret = append(ret, nums[i])
+	}
+
+	return ret
+}
+
+func sortString(s string) string {
+	vec := make([]byte, 26)
+	length := len(s)
+	ret := []byte{}
+	// 统计每个字符的数量
+	for i := 0; i < length; i++ {
+		vec[s[i]-'a']++
+	}
+
+	lengthRet := 0
+	for lengthRet < length {
+		for i := 0; i < 26; i++ {
+			if vec[i] != 0 {
+				ret = append(ret, byte(i)+'a')
+				vec[i]--
+				lengthRet++
+			}
+		}
+
+		for i := 25; i >= 0; i-- {
+			if vec[i] != 0 {
+				ret = append(ret, byte(i)+'a')
+				vec[i]--
+				lengthRet++
+			}
+		}
+
+	}
+
+	return string(ret)
+}
+
+func sortArrayByParityII(A []int) []int {
+	length := len(A)
+	if length <= 0 {
+		return []int{}
+	}
+
+	if length%2 != 0 {
+		return []int{}
+	}
+
+	middle := length / 2
+
+	ret := make([]int, length)
+	ji, ou := 1, 0
+	for i := 0; i < middle; i++ {
+		if A[i]%2 == 0 {
+			ret[ou] = A[i]
+			ou += 2
+		}
+
+		if A[i]%2 != 0 {
+			ret[ji] = A[i]
+			ji += 2
+		}
+
+		if A[length-1-i]%2 == 0 {
+			ret[ou] = A[length-1-i]
+			ou += 2
+		}
+
+		if A[length-1-i]%2 != 0 {
+			ret[ji] = A[length-1-i]
+			ji += 2
+		}
+	}
+
+	return ret
+}
+
+func IsHui(num int) bool {
+	if num < 0 {
+		return false
+	}
+
+	ret := 0
+	for num != 0 {
+		temp := num % 10
+
+		ret = temp*10 + ret
+
+		num = num / 10
+	}
+
+	return ret == num
+}
+
+func QuickSort1(arr []int) []int {
+	length := len(arr)
+	if length <= 1 {
+		return arr
+	}
+
+	left := []int{}
+	right := []int{}
+
+	value := arr[0]
+	for i := 1; i < length; i++ {
+		if value >= arr[i] {
+			right = append(right, arr[i])
+		} else {
+			left = append(left, arr[i])
+		}
+	}
+
+	l := QuickSort1(left)
+	r := QuickSort1(right)
+	return append(append(l, value), r...)
+}
+
+// 链表第一个公共节点
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+	temp1, temp2 := headA, headB
+
+	for temp1 != temp2 {
+		if temp1 != nil {
+			temp1 = temp1.Next
+		} else {
+			temp1 = headB
+		}
+
+		if temp2 != nil {
+			temp2 = temp2.Next
+		} else {
+			temp2 = headA
+		}
+	}
+
+	return temp1
+}
+
+// 反转链表
+func reverseList(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+
+	var t0 *ListNode = nil
+	var t1 *ListNode = nil
+
+	for head != nil {
+		t1 = head
+		head = head.Next
+		t1.Next = t0
+		t0 = t1
+	}
+
+	return head
+}
+
+func getKthFromEnd(head *ListNode, k int) *ListNode {
+	if head == nil {
+		return head
+	}
+
+	slow := head
+	fast := head
+
+	for i := 0; i < k; i++ {
+		if fast != nil {
+			fast = fast.Next
+			continue
+		}
+
+		return nil
+	}
+
+	for fast != nil {
+		slow = slow.Next
+		fast = fast.Next
+	}
+
+	return slow
+}
+
+func deleteNode(head *ListNode, val int) *ListNode {
+	if head == nil {
+		return head
+	}
+
+	if head.Val == val {
+		head = head.Next
+		return head
+	}
+
+	slow, fast := head, head.Next
+	for fast != nil {
+		if fast.Val == val {
+			slow.Next = slow.Next.Next
+			break
+		}
+
+		fast = fast.Next
+		slow = slow.Next
+	}
+
+	return head
+}
+
+func huan(head *linkNode) bool {
+	if head == nil {
+		return false
+	}
+
+	slow := head
+	fast := head
+
+	for slow != nil && fast != nil {
+		slow = slow.next
+		fast = fast.next.next
+		if slow == fast {
+			return true
+		}
+	}
+
+	return false
+}
+
+/////////////////排序
+// 冒泡排序
+// 大数每次循环都会沉到最底端
+// 因此第二层循环我们是length-1-i
+// O(n)-O(n2)-O(n2)
+func MaoPao(arr []int) []int {
+	length := len(arr)
+
+	swap := false
+	for i := 0; i < length; i++ {
+		for j := 0; j < length-1-i; j++ {
+			if arr[j] > arr[j+1] {
+				arr[j], arr[j+1] = arr[j+1], arr[j]
+				swap = true
+			}
+		}
+
+		if swap == false {
+			break
+		}
+	}
+
+	return arr
+}
+
+// 选择排序
+// 不稳定排序
+// O(n2)-O(n2)-O(n2)
+func XuanZe(arr []int) []int {
+	length := len(arr)
+	for i := 0; i < length; i++ {
+		minIndex := i
+		for j := i; j < length; j++ {
+			if arr[minIndex] >= arr[j] {
+				minIndex = j
+			}
+		}
+
+		arr[i], arr[minIndex] = arr[minIndex], arr[i]
+	}
+
+	return arr
+}
+
+// 快速排序
+// O(nlogn)- O(n2)
+// 主要和递归的深度有关系
+// 本身有序的话就会出现O(n2)
+func KuaiSu(arr []int) []int {
+	length := len(arr)
+	if length <= 0 {
+		return []int{}
+	}
+
+	left := []int{}
+	right := []int{}
+
+	value := arr[0]
+	for i := 1; i < length; i++ {
+		if arr[i] > value {
+			right = append(right, arr[i])
+		} else {
+			left = append(left, arr[i])
+		}
+	}
+
+	return append(append(KuaiSu(left), value), KuaiSu(right)...)
+}
+
+// 插入排序
+// O(n)-O(n2)-O(n2)
+func InsertSort(arr []int) []int {
+	length := len(arr)
+	if length == 0 {
+		return arr
+	}
+
+	current := 0
+	for i := 0; i < length-1; i++ {
+		current = arr[i+1]
+		preIndex := i
+		for preIndex >= 0 && current < arr[preIndex] {
+			arr[preIndex+1] = arr[preIndex]
+			preIndex--
+		}
+
+		arr[preIndex+1] = current
+	}
+
+	return arr
+}
+
+// 堆排序
+// O(nlogn)-O(nlogn)-O(nlogn)
+func BuildMaxHeap(arr []int, arrLen int) {
+	for i := arrLen / 2; i >= 0; i-- {
+		Heapity(arr, i, arrLen)
+	}
+}
+
+func Heapity(arr []int, i, arrLen int) {
+	left := 2*i + 1
+	right := 2*i + 2
+
+	largest := i
+	if left < arrLen && arr[left] > arr[largest] {
+		largest = left
+	}
+
+	if left < arrLen && arr[right] > arr[largest] {
+		largest = right
+	}
+
+	if i != largest {
+		arr[i], arr[largest] = arr[largest], arr[i]
+		Heapity(arr, largest, arrLen)
+	}
+}
+
+func HeapSort(arr []int) []int {
+	length := len(arr)
+	BuildMaxHeap(arr, length)
+	for i := length - 1; i >= 0; i-- {
+		arr[0], arr[i] = arr[i], arr[0]
+		length--
+		Heapity(arr, 0, length)
+	}
+
+	return arr
+}
+
+// 归并排序
+// O(n)-O(nlogn)-O(nlogn)
+// 空间复杂度O(n)
+func MergeSort(arr []int) []int {
+	length := len(arr)
+	if length < 2 {
+		return arr
+	}
+
+	mid := length / 2
+	left := arr[0:mid]
+	right := arr[mid+1 : length]
+
+	return Merge(MergeSort(left), MergeSort(right))
+}
+
+func Merge(left []int, right []int) []int {
+	length := len(left) + len(right)
+	result := make([]int, length)
+	lengthL := len(left)
+	lengthR := len(right)
+
+	for index, i, j := 0, 0, 0; index < length; index++ {
+		if i >= lengthL {
+			result[index] = right[j]
+			j++
+		} else if j >= lengthR {
+			result[index] = left[i]
+			i++
+		} else if left[i] > right[j] {
+			result[index] = right[j]
+			j++
+		} else {
+			result[index] = left[i]
+			i++
+		}
+	}
+	return result
+}
+
+// 计数排序
+// O(n+k)-O(n+k)-O(n+k)
+// O(K)
+func CountSort(arr []int) []int {
+	length := len(arr)
+	if length <= 0 {
+		return []int{}
+	}
+
+	// 先找到最大与最小值确定二外空间的数组的大小范围
+	min, max := 0, 0
+	for _, value := range arr[1:] {
+		if value > max {
+			max = value
+		}
+
+		if value < min {
+			min = value
+		}
+	}
+
+	// 分配二外空间
+	exter := make([]int, max-min+1)
+	// 开始计数统计放入exter数组中
+	for _, value := range arr {
+		exter[value-min]++
+	}
+
+	b := 0
+	for i := 0; i < length; i++ {
+		if exter[b] != 0 {
+			arr[i] = b + min
+			exter[b]--
+		} else {
+			b++
+		}
+	}
+
+	return exter
+}

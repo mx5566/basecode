@@ -32,7 +32,6 @@ type HeapStruct struct {
 }
 
 // 最大堆
-
 func initHeap(arr []ElementType, size int, heap MaxHeap, maxCapacity int) {
 	heap.capacity = maxCapacity
 
